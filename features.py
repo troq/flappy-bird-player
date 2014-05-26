@@ -98,7 +98,7 @@ class Feature(object):
         pipes_only = (self.color_channel+self.bird_only).binarize(self.pipe_thresh_bin).dilate()
 
         pipes = pipes_only.findBlobs(minsize=self.min_pipe_size)
-        return pipes[-4:] if pipes else None #the largest 4 are the pipes, None if no pipes
+        return pipes if pipes else None 
 
     def show_features(self):
         """shows bird/pipe blobs on image
