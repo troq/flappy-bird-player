@@ -18,7 +18,7 @@ def mouseEvent(type, posx, posy):
 def mousemove(posx,posy):
         mouseEvent(kCGEventMouseMoved, posx,posy);
 
-def mouseclick(posx,posy):
+def mouseclick((posx,posy)):
         # uncomment this line if you want to force the mouse 
         # to MOVE to the click location first (I found it was not necessary).
         #mouseEvent(kCGEventMouseMoved, posx,posy);

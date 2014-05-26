@@ -15,5 +15,7 @@ PARAMS = {
 
 #for screenshot
 REGION = (1018,114,120,140)
+CLICK_POS = (1060, 140) 
+RESTART_BTN_POS = (1060, 210) 
 
 PATH = 'tmp.png'

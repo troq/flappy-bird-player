@@ -50,26 +50,27 @@ class Features(object):
     def extract(self):
         """extracts bird x&y displacement (from pipe) & bird state
 
-        :returns: sets x_disp, y_disp, is_alive
+        :returns: x_disp, y_disp, is_alive
 
         """
         bird, pipe = self.extract_blobs()
 
         if bird is None:
-            self.is_alive = False
-            self.x_disp = 0
-            self.y_disp = 0
+            is_alive = False
+            x_disp = 0
+            y_disp = 0
         else:
-            self.is_alive = True
+            is_alive = True
             bird_bottom_right = bird.bottomRightCorner()
 
             if pipe is None:
-                self.x_disp = 1000
-                self.y_disp = 1000
+                x_disp = 1000
+                y_disp = 1000
             else:
                 pipe_top_right = pipe.topRightCorner()
-                self.x_disp = bird_bottom_right[0]-pipe_top_right[0]
-                self.y_disp = bird_bottom_right[1]-pipe_top_right[1]
+                x_disp = bird_bottom_right[0]-pipe_top_right[0]
+                y_disp = bird_bottom_right[1]-pipe_top_right[1]
+        return x_disp, y_disp, is_alive
 
 
     def extract_blobs(self):
