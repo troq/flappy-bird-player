@@ -8,7 +8,8 @@ def test():
         path = 'test/tmp.png'
         screenshot(path, region=REGION)
         im = Image(path)
-        f = Features(im, **PARAMS)
+        PARAMS['image'] = im
+        f = Features(**PARAMS)
         blobs = f.extract_blobs()
         if not blobs[0]:
             break

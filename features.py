@@ -4,8 +4,8 @@ from SimpleCV import Image, DrawingLayer
 
 class Features(object):
 
-    def __init__(self, image, resize_h, pipe_thresh_bin, min_pipe_size, pipe_thresh_x, 
-                 bird_color, bird_thresh_bin, num_bird_dilate, min_bird_size, max_bird_size):
+    def __init__(self, resize_h, pipe_thresh_bin, min_pipe_size, pipe_thresh_x, 
+                 bird_color, bird_thresh_bin, num_bird_dilate, min_bird_size, max_bird_size, image=None):
         """Used to handle features (bird x&y displacement from significan pipe) 
         of snappy bird game, after extraction, features stored as x_disp, y_disp
         THERE'S TOO MUCH FUNCTIONALITY IN THIS CLASS, WATEVER THO
@@ -21,34 +21,56 @@ class Features(object):
         :max_bird_size: max blob area that matches bird
 
         """
-        if resize_h is not None:
-            self.small = image.resize(h=resize_h)
-        else:
-            self.small = image
-        self.color_channel   = self.small.colorDistance(bird_color)
+        self.resize_h        = resize_h
         self.pipe_thresh_bin = pipe_thresh_bin
         self.min_pipe_size   = min_pipe_size
         self.pipe_thresh_x   = pipe_thresh_x
+        self.bird_color      = bird_color
         self.bird_thresh_bin = bird_thresh_bin
         self.num_bird_dilate = num_bird_dilate
         self.max_bird_size   = max_bird_size
         self.min_bird_size   = min_bird_size
 
-    def extract(self):
-        """extracts bird x&y displacement from significant pipe from small image
+        if image is not None:
+            self.set_image(image)
 
-        :returns: True if extraction successful (and sets x_disp, y_disp, bird_y), False if bird is dead
+    def set_image(self, image):
+        """sets a image (or changes it)
+
+        :image: SimpleCV Image
+        :returns: sets self.small, self.color_channel
+
+        """
+        if self.resize_h is not None:
+            self.small = image.resize(h=self.resize_h)
+        else:
+            self.small = image
+        self.color_channel = self.small.colorDistance(self.bird_color)
+
+    def extract(self):
+        """extracts bird x&y displacement (from pipe) & bird state
+
+        :returns: sets x_disp, y_disp, is_alive
 
         """
         bird, pipe = self.extract_blobs()
 
         if bird is None:
-            return False
+            self.is_alive = False
+            self.x_disp = 0
+            self.y_disp = 0
+        else:
+            self.is_alive = True
+            bird_bottom_right = bird.bottomRightCorner()
 
-        self.x_disp = bird.x-pipe.x
-        self.y_disp = bird.y-pipe.y
+            if pipe is None:
+                self.x_disp = 1000
+                self.y_disp = 1000
+            else:
+                pipe_top_right = pipe.topRightCorner()
+                self.x_disp = bird_bottom_right[0]-pipe_top_right[0]
+                self.y_disp = bird_bottom_right[1]-pipe_top_right[1]
 
-        return True
 
     def extract_blobs(self):
         """extracts the bird blob and the significant pipe blob from small image

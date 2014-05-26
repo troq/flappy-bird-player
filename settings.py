@@ -15,3 +15,5 @@ PARAMS = {
 
 #for screenshot
 REGION = (1018,114,120,140)
+
+PATH = 'tmp.png'
