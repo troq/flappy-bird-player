@@ -4,12 +4,12 @@ from screenshot import screenshot
 import time
 from settings import PARAMS, REGION
 def test():
+    f = Features(**PARAMS)
     while True:
         path = 'test/tmp.png'
         screenshot(path, region=REGION)
         im = Image(path)
-        PARAMS['image'] = im
-        f = Features(**PARAMS)
+        f.set_image(im)
         blobs = f.extract_blobs()
         if not blobs[0]:
             break
