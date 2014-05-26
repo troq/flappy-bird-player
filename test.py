@@ -1,5 +1,5 @@
 from SimpleCV import Image
-from features import Feature
+from features import Features
 from screenshot import screenshot
 import time
 from settings import PARAMS, REGION
@@ -8,7 +8,7 @@ def test():
         path = 'test/tmp.png'
         screenshot(path, region=REGION)
         im = Image(path)
-        f = Feature(im, **PARAMS)
+        f = Features(im, **PARAMS)
         blobs = f.extract_blobs()
         if not blobs[0]:
             break

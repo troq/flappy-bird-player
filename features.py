@@ -2,7 +2,7 @@
 
 from SimpleCV import Image, DrawingLayer
 
-class Feature(object):
+class Features(object):
 
     def __init__(self, image, resize_h, pipe_thresh_bin, min_pipe_size, pipe_thresh_x, 
                  bird_color, bird_thresh_bin, num_bird_dilate, min_bird_size, max_bird_size):
@@ -100,7 +100,7 @@ class Feature(object):
         pipes = pipes_only.findBlobs(minsize=self.min_pipe_size)
         return pipes if pipes else None 
 
-    def show_features(self):
+    def show(self):
         """shows bird/pipe blobs on image
 
         :returns: nothing
@@ -140,6 +140,6 @@ if __name__ == '__main__':
     }
     for x in range(0,35):
         image = Image('flap/test'+str(x)+'.png')
-        f = Feature(image, **params)
-        f.show_features()
+        f = Features(image, **params)
+        f.show()
         raw_input()
