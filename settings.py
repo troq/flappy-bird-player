@@ -14,4 +14,4 @@ PARAMS = {
 }
 
 #for screenshot
-REGION = (1017,114,120,140)
+REGION = (1018,114,120,140)
