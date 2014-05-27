@@ -1,5 +1,5 @@
 from pybrain.rl.environments.environment import Environment
-from scipy import zeros
+from scipy import zeros, asarray
 
 from SimpleCV import Image
 
@@ -11,14 +11,19 @@ from settings import PARAMS, REGION, PATH, CLICK_POS, RESTART_BTN_POS
 f = Features(**PARAMS)
 
 class FlappyBirdEnv(Environment):
-    indim = 2
+    indim = 1
     outdim = 4
+
+    discreteActions = True
+    numActions = 2
 
     def getSensors(self):
         screenshot(PATH, REGION)
         im = Image(PATH)
         f.set_image(im)
-        return f.extract()
+        sensors = asarray(f.extract())
+        self.is_alive = sensors[2]
+        return sensors
 
     def performAction(self, action):
         #if action is True, then click, otherwise do nothing
