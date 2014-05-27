@@ -63,11 +63,12 @@ class Features(object):
             is_alive = True
             bird_bottom_right = bird.bottomRightCorner()
 
-            if pipe is None:
+            pipe_top_right = pipe.topRightCorner() if pipe else None
+
+            if pipe_top_right is None or pipe_top_right[1] < 10: #checks if the top pipe was mistakenly found
                 x_disp = 1000
                 y_disp = 1000
             else:
-                pipe_top_right = pipe.topRightCorner()
                 x_disp = bird_bottom_right[0]-pipe_top_right[0]
                 y_disp = bird_bottom_right[1]-pipe_top_right[1]
         return x_disp, y_disp, is_alive

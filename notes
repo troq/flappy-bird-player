@@ -3,5 +3,7 @@ and the area of the part of the top pipe is above the threshold while the area o
 pipe is below the threshold then the top pipe will be detected as the significant pipe. I can either remove the
 threshold (I don't think it's actually needed, further testing will tell) or just ignore the top pipe when it's
 detected (by checking if the y val of the top right corner is below 20)
+    AFTER TESTING: will need to ignore when top pipe found bc removing the threshold does not work
+i think the flappy bird problem is episodic
 max x_disp : 21     min x_disp  : -119
 max y_disp : ?      min y_disp  : ?
